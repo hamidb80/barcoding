@@ -23,12 +23,12 @@ template transform*(s, by): untyped =
   r
 
 
-macro bitSeq*(s: static[string]): untyped =
+macro bs*(s: static[string]): untyped =
   ## converts a sequence of bits that represented as a `string`
   ## into `seq[bool]`
 
   runnableExamples:
-    assert bitSeq("101") == @[true, false, true]
+    assert bs"101" == @[true, false, true]
 
   var acc = newNimNode nnkBracket
 

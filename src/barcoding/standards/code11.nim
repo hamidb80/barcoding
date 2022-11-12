@@ -1,7 +1,7 @@
 ## https://web.archive.org/web/20070202060711/http://www.barcodeisland.com/code11.phtml
 
 import std/strformat
-import common, utils
+import ../common, ../utils
 
 type
   Code11 = enum
@@ -29,18 +29,18 @@ func toCode11(ch: char): Code11 =
 
 func bits(c: Code11): seq[bool] =
   case c
-  of c0: bitSeq "101011"
-  of c1: bitSeq "1101011"
-  of c2: bitSeq "1001011"
-  of c3: bitSeq "1100101"
-  of c4: bitSeq "1011011"
-  of c5: bitSeq "1101101"
-  of c6: bitSeq "1001101"
-  of c7: bitSeq "1010011"
-  of c8: bitSeq "1101001"
-  of c9: bitSeq "110101"
-  of cd: bitSeq "101101"
-  of cs: bitSeq "1011001"
+  of c0: bs"101011"
+  of c1: bs"1101011"
+  of c2: bs"1001011"
+  of c3: bs"1100101"
+  of c4: bs"1011011"
+  of c5: bs"1101101"
+  of c6: bs"1001101"
+  of c7: bs"1010011"
+  of c8: bs"1101001"
+  of c9: bs"110101"
+  of cd: bs"101101"
+  of cs: bs"1011001"
 
 
 template checkSum(base: int): untyped =

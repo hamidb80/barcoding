@@ -1,5 +1,6 @@
 # import std/strformat
-import barcoding/[common, upca, code11]
+import barcoding/[common, utils]
+import barcoding/standards/[upca, code11]
 
 type
   Barcodekind* = enum
@@ -7,14 +8,11 @@ type
     bCode11
 
 
-template TODO: untyped =
-  raise newException(ValueError, "not implemented")
-
 func genBarcode*(data: string, kind: BarcodeKind): seq[bool] =
   case kind
   of bUpca: upcaRepr toIntSeq data
   of bCode11: code11Repr data
-  else: TODO
+  else: raise newException(ValueError, "not implemented")
 
 
 # func toSVG(s: seq[bool]): string =
