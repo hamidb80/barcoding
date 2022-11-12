@@ -1,5 +1,6 @@
 ## https://web.archive.org/web/20070202060711/http://www.barcodeisland.com/code11.phtml
 
+import std/strformat
 import common, utils
 
 type
@@ -22,7 +23,8 @@ func toCode11(ch: char): Code11 =
   of '8': c8
   of '9': c9
   of '-': cd
-  else: raise newException(ValueError, "not valid")
+  else: raise newException ValueError:
+    fmt"invalid characher in code11 system: '{ch}'"
 
 
 func bits(c: Code11): seq[bool] =
@@ -61,13 +63,11 @@ func code11Repr*(data: string): Barcode =
   let
     s = transform(data, toCode11)
     c = checkSumC s
+    temp = s & c
     final =
-      if s.len < 10: s & c
-      else:
-        let
-          t = s & c
-          k = checkSumK t
-        t & k
+      if s.len < 10: temp
+      else: temp & checkSumK temp
+
 
   result.add bits cd
   result.add W
@@ -77,4 +77,3 @@ func code11Repr*(data: string): Barcode =
     result.add W
 
   result.add bits cd
-
