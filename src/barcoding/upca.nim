@@ -1,4 +1,4 @@
-import common
+import common, utils
 
 type
   UPCA* = enum
@@ -8,20 +8,20 @@ type
 
 func bits(u: UPCA): seq[bool] =
   case u
-  of o0: @[W, W, W, B, B, W, B]
-  of o1: @[W, W, B, B, W, W, B]
-  of o2: @[W, W, B, W, W, B, B]
-  of o3: @[W, B, B, B, B, W, B]
-  of o4: @[W, B, W, W, W, B, B]
-  of o5: @[W, B, B, W, W, W, B]
-  of o6: @[W, B, W, B, B, B, B]
-  of o7: @[W, B, B, B, W, B, B]
-  of o8: @[W, B, B, W, B, B, B]
-  of o9: @[W, W, W, B, W, B, B]
+  of o0: bitSeq "0001101"
+  of o1: bitSeq "0011001"
+  of o2: bitSeq "0010011"
+  of o3: bitSeq "0111101"
+  of o4: bitSeq "0100011"
+  of o5: bitSeq "0110001"
+  of o6: bitSeq "0101111"
+  of o7: bitSeq "0111011"
+  of o8: bitSeq "0110111"
+  of o9: bitSeq "0001011"
   of e0 .. e9: not bits(UPCA(u.int - 10))
-  of borderGuard: @[B, W, B]
-  of middleGuard: @[W, B, W, B, W]
-  of quiteZone: @[W, W, W, W, W, W, W, W, W]
+  of borderGuard: bitSeq "101"
+  of middleGuard: bitSeq "01010"
+  of quiteZone: bitSeq "000000000"
 
 
 func checkSum(digits: seq[int]): int =
