@@ -12,16 +12,7 @@ type
 
 func toCode11(ch: char): Code11 =
   case ch
-  of '0': c0
-  of '1': c1
-  of '2': c2
-  of '3': c3
-  of '4': c4
-  of '5': c5
-  of '6': c6
-  of '7': c7
-  of '8': c8
-  of '9': c9
+  of '0'..'9': Code11 toDigit ch
   of '-': cd
   else: raise newException ValueError:
     fmt"invalid characher in code11 system: '{ch}'"
