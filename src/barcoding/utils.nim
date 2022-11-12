@@ -22,10 +22,14 @@ template transform*(s, by): untyped =
   for i in s: r.add by(i)
   r
 
-# template shoot*(s): untyped =
-#   s.del s.high
 
 macro bitSeq*(s: static[string]): untyped =
+  ## converts a sequence of bits that represented as a `string`
+  ## into `seq[bool]`
+
+  runnableExamples:
+    assert bitSeq("101") == @[true, false, true]
+
   var acc = newNimNode nnkBracket
 
   for ch in s:
