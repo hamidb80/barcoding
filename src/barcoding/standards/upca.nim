@@ -4,9 +4,9 @@ type
   Upca* = enum
     o0, o1, o2, o3, o4, o5, o6, o7, o8, o9
     e0, e1, e2, e3, e4, e5, e6, e7, e8, e9
-    b # border guard 
-    m # middle guard
-    q # quite zone
+    bg # border guard
+    mg # middle guard
+    qz # quite zone
 
 func bits(u: Upca): seq[bool] =
   case u
@@ -21,9 +21,9 @@ func bits(u: Upca): seq[bool] =
   of o8: bs"0110111"
   of o9: bs"0001011"
   of e0 .. e9: not bits(Upca(u.int - 10))
-  of b: bs"101"
-  of m: bs"01010"
-  of q: bs"000000000"
+  of bg: bs"101"
+  of mg: bs"01010"
+  of qz: bs"000000000"
 
 
 func checkSum(digits: seq[int]): int =
@@ -40,19 +40,19 @@ func toUPCA(d: int, p: Parity): Upca =
   of even: Upca d+10
 
 func upca(s: seq[int]): seq[Upca] =
-  result.add q
-  result.add b
+  result.add qz
+  result.add bg
 
   for i in 0..5:
     result.add toUPCA(s[i], odd)
 
-  result.add m
+  result.add mg
 
   for i in 6..11:
     result.add toUPCA(s[i], even)
 
-  result.add b
-  result.add q
+  result.add bg
+  result.add qz
 
 func upcaRepr*(digits: seq[int]): Barcode =
   assert digits.len == 11
