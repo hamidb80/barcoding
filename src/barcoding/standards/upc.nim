@@ -22,7 +22,7 @@ func bits(u: Upc): seq[bool] =
   of o7: bs"0111011"
   of o8: bs"0110111"
   of o9: bs"0001011"
-  of e0 .. e9: not bits(Upc(u.int - 10))
+  of e0 .. e9: not bits Upc(u.int - 10)
   of bg: bs"101"
   of mg: bs"01010"
   of qz: bs"000000000"
@@ -65,7 +65,7 @@ func upca(s: seq[int]): seq[Upc] =
 
 func upcaRepr*(digits: seq[int]): Barcode =
   assert digits.len == 11
-  let final = upca(digits & checkSum(digits))
+  let final = upca digits & checkSum(digits)
   for s in final:
     result.add bits s
 

@@ -5,6 +5,13 @@ A Barcode generator library.
 Work in Progress
 
 ## Supported Standards
-- UPC-A
-- UPC-E
 - Code11
+- UPC-
+  - A
+  - E
+
+## TODO
+- EAN-
+  - 13
+  - 8
+  - 5

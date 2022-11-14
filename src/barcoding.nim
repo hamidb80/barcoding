@@ -1,6 +1,6 @@
 # import std/strformat
 import barcoding/[common, utils]
-import barcoding/standards/[upca, code11]
+import barcoding/standards/[upc, code11]
 
 type
   Barcodekind* = enum
