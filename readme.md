@@ -1,15 +1,18 @@
 # About
-A Barcode generator library.
+Honestly, a rewrite of [`barcode`](https://github.com/bunkford/barcode)).
 
 # Status
 Work in Progress
 
 ## Supported Standards
-- Code11
+- Code-11
 - UPC-A, UPC-E
 
 ## TODO
+- Code-128, Code-39, Code-93
 - EAN-13, EAN-8
+- MSI
+- Codabar
 
 # Resources
 - **UPC-E**: [1](https://www.morovia.com/kb/UPCE-Specification-10634.html), [2](https://www.cristallight.com/ibarcoder/help/barcodes/upce.htm)
