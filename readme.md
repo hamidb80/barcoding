@@ -8,11 +8,15 @@ Work in Progress
 - Code-11
 - UPC-A, UPC-E
 
-## TODO
+## Todo
 - Code-128, Code-39, Code-93
 - EAN-13, EAN-8
 - MSI
 - Codabar
+
+## Maybe Todo
+- 2D-Pharmacode
+
 
 # Resources
 - **UPC-E**: [1](https://www.morovia.com/kb/UPCE-Specification-10634.html), [2](https://www.cristallight.com/ibarcoder/help/barcodes/upce.htm)
