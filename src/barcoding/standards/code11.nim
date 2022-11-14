@@ -1,5 +1,3 @@
-## https://web.archive.org/web/20070202060711/http://www.barcodeisland.com/code11.phtml
-
 import std/strformat
 import ../utils
 

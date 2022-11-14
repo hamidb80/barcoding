@@ -17,5 +17,6 @@ Work in Progress
   - 5
 
 ## Resources
-1. **UPC-E**: [1](https://www.morovia.com/kb/UPCE-Specification-10634.html), [2](https://www.cristallight.com/ibarcoder/help/barcodes/upce.htm)
-2. **UPC-A**: [1](https://virgool.io/CE-SHAHED-publication/barcode-afff04psd1in), [2](https://en.wikipedia.org/wiki/Universal_Product_Code)
+- **UPC-E**: [1](https://www.morovia.com/kb/UPCE-Specification-10634.html), [2](https://www.cristallight.com/ibarcoder/help/barcodes/upce.htm)
+- **UPC-A**: [1](https://virgool.io/CE-SHAHED-publication/barcode-afff04psd1in), [2](https://en.wikipedia.org/wiki/Universal_Product_Code)
+- **Code11**: [1](https://web.archive.org/web/20070202060711/http://www.barcodeisland.com/code11.phtml)
