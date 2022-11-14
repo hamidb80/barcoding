@@ -6,15 +6,10 @@ Work in Progress
 
 ## Supported Standards
 - Code11
-- UPC:
-  - A
-  - E
+- UPC-A, UPC-E
 
 ## TODO
-- EAN:
-  - 13
-  - 8
-  - 5
+- EAN-13, EAN-8
 
 ## Resources
 - **UPC-E**: [1](https://www.morovia.com/kb/UPCE-Specification-10634.html), [2](https://www.cristallight.com/ibarcoder/help/barcodes/upce.htm)
