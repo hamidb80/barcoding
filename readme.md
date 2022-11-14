@@ -13,6 +13,7 @@ Work in Progress
 - EAN-13, EAN-8
 - MSI
 - Codabar
+- Pharmacode
 
 ## Maybe Todo
 - 2D-Pharmacode
