@@ -1,7 +1,8 @@
 ## https://web.archive.org/web/20070202060711/http://www.barcodeisland.com/code11.phtml
 
 import std/strformat
-import ../common, ../utils
+import ../utils
+
 
 type
   Code11 = enum
@@ -9,13 +10,9 @@ type
     c0, c1, c2, c3, c4, c5, c6, c7, c8, c9
     cd      # dash -
 
-
-func toCode11(ch: char): Code11 =
-  case ch
-  of '0'..'9': Code11 toDigit ch
-  of '-': cd
-  else: raise newException ValueError:
-    fmt"invalid characher in code11 system: '{ch}'"
+const 
+  W = false
+  # B = true
 
 
 func bits(c: Code11): seq[bool] =
@@ -32,6 +29,13 @@ func bits(c: Code11): seq[bool] =
   of c9: bs"110101"
   of cd: bs"101101"
   of cs: bs"1011001"
+
+func toCode11(ch: char): Code11 =
+  case ch
+  of '0'..'9': Code11 toDigit ch
+  of '-': cd
+  else: raise newException ValueError:
+    fmt"invalid characher in code11 system: '{ch}'"
 
 
 template checkSum(base: int): untyped =
@@ -50,7 +54,7 @@ func checkSumC(data: seq[Code11]): Code11 =
   checkSum 11
 
 
-func code11Repr*(data: string): Barcode =
+func code11Repr*(data: string): seq[bool] =
   let
     s = transform(data, toCode11)
     c = checkSumC s

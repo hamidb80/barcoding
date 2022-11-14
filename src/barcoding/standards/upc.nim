@@ -1,7 +1,10 @@
-import ../common, ../utils
+import ../utils
 
 
 type
+  Parity* = enum
+    odd, even
+
   Upc* = enum
     o0, o1, o2, o3, o4, o5, o6, o7, o8, o9
     e0, e1, e2, e3, e4, e5, e6, e7, e8, e9
@@ -27,7 +30,7 @@ func bits(u: Upc): seq[bool] =
   of mg: bs"01010"
   of qz: bs"000000000"
 
-func checkSum(digits: seq[int]): int =
+func checkSum(digits: seq[int]): range[0..9] =
   var odd = true
 
   for i in 1..digits.len:
@@ -97,7 +100,7 @@ func upceRepr*(digits: seq[int]): Barcode =
   for i, parity in paritySeq check:
     let d =
       case i:
-      of 0..4: digits[i]
+      of 0..<5: digits[i]
       else: check
 
     result.add bits toUpc(d, parity)
