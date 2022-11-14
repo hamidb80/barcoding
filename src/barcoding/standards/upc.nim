@@ -66,7 +66,7 @@ func upca(s: seq[int]): seq[Upc] =
   result.add bg
   result.add qz
 
-func upcaRepr*(digits: seq[int]): Barcode =
+func upcaRepr*(digits: seq[int]): seq[bool] =
   assert digits.len == 11
   let final = upca digits & checkSum(digits)
   for s in final:
@@ -91,7 +91,7 @@ func paritySeq(modulo: range[0..9]): array[6, Parity] =
   of 8: [E, O, E, O, O, E]
   of 9: [E, O, O, E, O, E]
 
-func upceRepr*(digits: seq[int]): Barcode =
+func upceRepr*(digits: seq[int]): seq[bool] =
   assert digits.len == 5
   let check = checkSum digits
 
