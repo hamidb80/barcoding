@@ -41,3 +41,6 @@ macro bs*(s: static[string]): untyped =
 
   prefix(acc, "@") # convert toseq
 
+template cut*(s: seq): untyped =
+  s.del s.high
+  

@@ -8,7 +8,7 @@ type
     c0, c1, c2, c3, c4, c5, c6, c7, c8, c9
     cd      # dash -
 
-const 
+const
   W = false
   # B = true
 
@@ -52,7 +52,7 @@ func checkSumC(data: seq[Code11]): Code11 =
   checkSum 11
 
 
-func code11Repr*(data: string): seq[bool] =
+func code11*(data: string): seq[Code11] =
   let
     s = transform(data, toCode11)
     c = checkSumC s
@@ -61,12 +61,13 @@ func code11Repr*(data: string): seq[bool] =
       if s.len < 10: temp
       else: temp & checkSumK temp
 
+  result.add cd
+  for c in final: result.add c
+  result.add cd
 
-  result.add bits cd
-  result.add W
-
-  for c in final:
+func code11Repr*(data: string): seq[bool] =
+  for c in code11 data:
     result.add bits c
     result.add W
 
-  result.add bits cd
+  cut result

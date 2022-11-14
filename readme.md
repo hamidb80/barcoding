@@ -1,5 +1,5 @@
 # About
-Honestly, a rewrite of [`barcode`](https://github.com/bunkford/barcode)).
+Honestly, a rewrite of [`barcode`](https://github.com/bunkford/barcode)
 
 # Status
 Work in Progress
