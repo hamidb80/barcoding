@@ -8,9 +8,15 @@ type
   Upc* = enum
     o0, o1, o2, o3, o4, o5, o6, o7, o8, o9
     e0, e1, e2, e3, e4, e5, e6, e7, e8, e9
-    bg # border guard
-    mg # middle guard
-    qz # quite zone
+
+
+const
+  bg* = bs"101"         # border guard
+  mg* = bs"01010"       # middle guard
+  qz* = bs"000 000 000" # quite zone
+  W = false
+  O = odd
+  E = even
 
 
 func bits*(u: Upc): seq[bool] =
@@ -26,11 +32,8 @@ func bits*(u: Upc): seq[bool] =
   of o8: bs"0110111"
   of o9: bs"0001011"
   of e0 .. e9: not bits Upc(u.int - 10)
-  of bg: bs"101"
-  of mg: bs"01010"
-  of qz: bs"000000000"
 
-func checkSum(digits: seq[int]): range[0..9] =
+func upcCheckSum*(digits: seq[int]): range[0..9] =
   var odd = true
 
   for i in 1..digits.len:
@@ -49,59 +52,51 @@ func toUpc*(d: int, p: Parity): Upc =
   of odd: Upc d
   of even: Upc d+10
 
-
-template gen(name, size, fn): untyped {.dirty.} =
-  proc name*(digits: seq[int]): seq[bool] =
-    assert digits.len == size
-    let final = fn digits
-    for s in final:
-      result.add bits s
-
 # --- UPC-A
 
-func upca(s: seq[int]): seq[Upc] =
+func upca(digits: seq[int]): seq[Upc] =
+  const pattern = il"OOOOOO EEEEEE"
+
+  for i, d in digits:
+    result.add toUpc(d, pattern[i])
+
+  result.add toUpc(upcCheckSum(digits), even)
+
+proc upcaRepr*(digits: seq[int]): seq[bool] =
+  assert digits.len == 11
+  let final = upca digits
+
   result.add qz
   result.add bg
 
-  for i in 0..5:
-    result.add toUpc(s[i], odd)
+  for i in 0..<6:
+    result.add bits final[i]
 
   result.add mg
 
-  for i in 6..10:
-    result.add toUpc(s[i], even)
-
-  result.add toUpc(checkSum(s), even)
+  for i in 6..<12:
+    result.add bits final[i]
 
   result.add bg
   result.add qz
-
-gen upcaRepr, 11, upca
 
 # --- UPC-E
 
 func paritySeq(modulo: range[0..9]): array[6, Parity] =
-  const
-    E = even
-    O = odd
-
   case modulo
-  of 0: [E, E, E, O, O, O]
-  of 1: [E, E, O, E, O, O]
-  of 2: [E, E, O, O, E, O]
-  of 3: [E, E, O, O, O, E]
-  of 4: [E, O, E, E, O, O]
-  of 5: [E, O, O, E, E, O]
-  of 6: [E, O, O, O, E, E]
-  of 7: [E, O, E, O, E, O]
-  of 8: [E, O, E, O, O, E]
-  of 9: [E, O, O, E, O, E]
+  of 0: il"EEE OOO"
+  of 1: il"EEO EOO"
+  of 2: il"EEO OEO"
+  of 3: il"EEO OOE"
+  of 4: il"EOE EOO"
+  of 5: il"EOO EEO"
+  of 6: il"EOO OEE"
+  of 7: il"EOE OEO"
+  of 8: il"EOE OOE"
+  of 9: il"EOO EOE"
 
 func upce(digits: seq[int]): seq[Upc] =
-  assert digits.len == 5
-  let check = checkSum digits
-
-  result.add bg
+  let check = upcCheckSum digits
 
   for i, parity in paritySeq check:
     let d =
@@ -111,6 +106,13 @@ func upce(digits: seq[int]): seq[Upc] =
 
     result.add toUpc(d, parity)
 
-  result.add bg
+proc upceRepr*(digits: seq[int]): seq[bool] =
+  assert digits.len == 5
 
-gen upceRepr, 5, upce
+  result.add bg
+  result.add W
+
+  for i, f in upce digits:
+    result.add bits f
+
+  result.add bg

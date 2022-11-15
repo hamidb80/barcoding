@@ -11,9 +11,14 @@ type
     L, G, R # Left - GS1 - Right
 
 
+const
+  smallStarter = bs"01011"
+  smallSep = bs"01"
+
+
 func bits(c: Ean): seq[bool] =
   case c
-  of l0..l9, r0..r9: bits(Upc c.int)
+  of l0..l9, r0..r9: bits Upc(c.int)
   of g0..g9: reversed bits Upc(c.int - 10)
 
 func toEan(n: range[0..9], e: Encoding): Ean =
@@ -22,10 +27,10 @@ func toEan(n: range[0..9], e: Encoding): Ean =
   of G: n + g0.ord
   of R: n + r0.ord
 
-func genCode(digits: seq[int], pattern: seq[Encoding]): seq[Ean] =
-  result = newSeqOfCap[Ean](digits.len)
+func genCode(digits: seq[int], pattern: openArray[Encoding]): seq[Ean] =
   for i, d in digits:
     result.add toEan(d, pattern[i])
+
 
 func ean13Encoding(n: range[0..9]): array[12, Encoding] =
   case n
@@ -40,13 +45,53 @@ func ean13Encoding(n: range[0..9]): array[12, Encoding] =
   of 8: il"LGLGGL RRRRRR"
   of 9: il"LGGLGL RRRRRR"
 
-func ean13Repr =
-  discard
+func ean13Repr*(digits: seq[int]): seq[bool] =
+  assert digits.len == 12
+
+  let
+    content = digits[1..^1] & upcCheckSum(digits)
+    codes = genCode(content, ean13Encoding digits[0])
 
 
-func ean8Repr =
-  const pattern = il"LLLL RRRR"
+  result.add qz
+  result.add bg
 
+  for i in 0..<6:
+    result.add bits codes[i]
+
+  result.add mg
+
+  for i in 6..<12:
+    result.add bits codes[i]
+
+  result.add bg
+  result.add qz
+
+func ean8Repr*(digits: seq[int]): seq[bool] =
+  assert digits.len == 7
+  let codes = genCode(digits, il"LLLL RRRR")
+
+  result.add mg
+
+  for i in 0..<4:
+    result.add bits codes[i]
+
+  result.add mg
+
+  for i in 4..<8:
+    result.add bits codes[i]
+
+  result.add mg
+
+
+func smallJoiner*(codes: seq[Ean]): seq[bool] =
+  result.add smallStarter
+
+  for i, c in codes:
+    if i != 0:
+      result.add smallSep
+
+    result.add bits c
 
 func ean5CheckSum(digits: seq[int]): int =
   for i, d in digits:
@@ -70,10 +115,9 @@ func ean5Encoding(n: range[0..9]): array[5, Encoding] =
   of 8: il"LGLLG"
   of 9: il"LLGLG"
 
-func ean5Repr =
-  # LIFE EAN-2
-  discard
-
+func ean5Repr*(digits: seq[int]): seq[bool] =
+  assert digits.len == 5
+  smallJoiner genCode(digits, ean5Encoding ean5CheckSum digits)
 
 func ean2Encoding(n: range[00..99]): array[2, Encoding] =
   case n % 4
@@ -82,7 +126,6 @@ func ean2Encoding(n: range[00..99]): array[2, Encoding] =
   of 2: il"GL"
   of 3: il"GG"
 
-func ean2Repr =
-  # digits are separated by 01
-  # always begins with "01011".
-  discard
+func ean2Repr*(digits: seq[int]): seq[bool] =
+  assert digits.len == 2
+  smallJoiner genCode(digits, ean2Encoding toNumber digits)

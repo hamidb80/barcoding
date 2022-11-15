@@ -37,6 +37,7 @@ macro bs*(s: static[string]): untyped =
       case ch
       of '1': ident "true"
       of '0': ident "false"
+      of ' ': continue
       else: raise newException(ValueError, "invalid bit literal")
 
   prefix(acc, "@") # convert toseq
@@ -48,13 +49,21 @@ macro il*(s: static[string]): untyped = # identical list
   result = newNimNode nnkBracket
 
   for ch in s:
-    if ch != ' ': 
+    if ch != ' ':
       result.add ident $ch
 
 template `%`*(n: int, m: static[int]): untyped =
   ## a type safe modulo used in case statements to avoid `else` branch
-  cast[range[0..m-1]](n mod m)
+  range[0..m-1](n mod m)
 
 template cut*(s: seq): untyped =
   s.del s.high
-  
+
+
+func toNumber*(digits: openArray[int]): int =
+  runnableExamples:
+    assert toNumber([1, 2]) == 12
+
+  for d in digits:
+    result = result * 10 + d
+
