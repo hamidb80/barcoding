@@ -1,5 +1,5 @@
 import barcoding/[utils]
-import barcoding/standards/[upc, code11]
+import barcoding/standards/[upc, ean, code11]
 
 type
   Barcode* = seq[bool]
@@ -15,7 +15,17 @@ func genBarcode*(data: string, kind: BarcodeKind): seq[bool] =
   case kind
   of bUpca: upcaRepr toIntSeq data
   of bUpce: upceRepr toIntSeq data
+  of bEan13: ean13Repr toIntSeq data
+  of bEan8: ean8Repr toIntSeq data
+  of bEan5: ean5Repr toIntSeq data
+  of bEan2: ean2Repr toIntSeq data
+  # of bCode128:
+  # of bCode93:
+  # of bCode39:
   of bCode11: code11Repr data
+  # of bMsi:
+  # of bCodabar:
+  # of bPharmacode:
   else: raise newException(ValueError, $kind & " is not implmented")
 
 
