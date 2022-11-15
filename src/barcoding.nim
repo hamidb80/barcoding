@@ -5,8 +5,9 @@ type
   Barcode* = seq[bool]
 
   Barcodekind* = enum
-    bUpca, bUpce
-    bCode11
+    bUpca, bUpce, bEan13
+    bCode128, bCode93, bCode39, bCode11
+    bMsi, bCodabar, bPharmacode
 
 
 func genBarcode*(data: string, kind: BarcodeKind): seq[bool] =
@@ -14,6 +15,7 @@ func genBarcode*(data: string, kind: BarcodeKind): seq[bool] =
   of bUpca: upcaRepr toIntSeq data
   of bUpce: upceRepr toIntSeq data
   of bCode11: code11Repr data
+  else: raise newException(ValueError, $kind & " is not implmented")
 
 
 # func toSVG(s: seq[bool]): string =
