@@ -50,10 +50,10 @@ func toUpc(d: int, p: Parity): Upc =
   of even: Upc d+10
 
 
-template gen(name, size, body): untyped {.dirty.} =
+template gen(name, size, fn): untyped {.dirty.} =
   proc name*(digits: seq[int]): seq[bool] =
     assert digits.len == size
-    let final = body
+    let final = fn digits
     for s in final:
       result.add bits s
 
@@ -68,14 +68,15 @@ func upca(s: seq[int]): seq[Upc] =
 
   result.add mg
 
-  for i in 6..11:
+  for i in 6..10:
     result.add toUpc(s[i], even)
+
+  result.add toUpc(checkSum(s), even)
 
   result.add bg
   result.add qz
 
-gen upcaRepr, 11:
-  upca digits & checkSum(digits)
+gen upcaRepr, 11, upca
 
 # --- UPC-E
 
@@ -112,5 +113,4 @@ func upce(digits: seq[int]): seq[Upc] =
 
   result.add bg
 
-gen upceRepr, 5:
-  upce digits & checkSum(digits)
+gen upceRepr, 5, upce
