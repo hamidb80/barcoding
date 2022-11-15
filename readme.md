@@ -7,10 +7,10 @@ Work in Progress
 ## Supported Standards
 - Code-11
 - UPC-A, UPC-E
+- EAN-13, EAN-8, EAN-5, EAN-2
 
 ## Todo
 - Code-128, Code-39, Code-93
-- EAN-13, EAN-8
 - MSI
 - Codabar
 - Pharmacode

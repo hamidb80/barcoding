@@ -5,7 +5,8 @@ type
   Barcode* = seq[bool]
 
   Barcodekind* = enum
-    bUpca, bUpce, bEan13
+    bUpca, bUpce
+    bEan13, bEan8, bEan5, bEan2
     bCode128, bCode93, bCode39, bCode11
     bMsi, bCodabar, bPharmacode
 

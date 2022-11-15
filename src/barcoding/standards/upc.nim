@@ -13,7 +13,7 @@ type
     qz # quite zone
 
 
-func bits(u: Upc): seq[bool] =
+func bits*(u: Upc): seq[bool] =
   case u
   of o0: bs"0001101"
   of o1: bs"0011001"
@@ -44,7 +44,7 @@ func checkSum(digits: seq[int]): range[0..9] =
 
   result = sup10(result) - result
 
-func toUpc(d: int, p: Parity): Upc =
+func toUpc*(d: int, p: Parity): Upc =
   case p
   of odd: Upc d
   of even: Upc d+10

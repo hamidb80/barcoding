@@ -41,6 +41,20 @@ macro bs*(s: static[string]): untyped =
 
   prefix(acc, "@") # convert toseq
 
+macro il*(s: static[string]): untyped = # identical list
+  runnableExamples:
+    assert bs"LG L" == @[L, G, L]
+
+  result = newNimNode nnkBracket
+
+  for ch in s:
+    if ch != ' ': 
+      result.add ident $ch
+
+template `%`*(n: int, m: static[int]): untyped =
+  ## a type safe modulo used in case statements to avoid `else` branch
+  cast[range[0..m-1]](n mod m)
+
 template cut*(s: seq): untyped =
   s.del s.high
   
