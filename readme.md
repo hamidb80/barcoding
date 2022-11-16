@@ -26,3 +26,4 @@ Work in Progress
 - **UPC-A**: [1](https://virgool.io/CE-SHAHED-publication/barcode-afff04psd1in)
 - **Code-11**: [1](https://web.archive.org/web/20070202060711/http://www.barcodeisland.com/code11.phtml)
 - **EAN-8**: [1](https://softmatic.com/barcode-ean-8.html)
+- [active barcode](https://www.activebarcode.com/codes/)
