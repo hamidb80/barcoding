@@ -8,9 +8,9 @@ Work in Progress
 - Code-11
 - UPC-A, UPC-E
 - EAN-13, EAN-8, EAN-5, EAN-2
-- Code-128, Code-39, Code-93
 
 ## Todo
+- Code-128, Code-39, Code-93
 - MSI
 - Codabar
 - Pharmacode
